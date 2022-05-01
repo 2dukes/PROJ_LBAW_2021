@@ -88,7 +88,7 @@ class Recipe extends Model
     public function getProfileImage()
     {
         $images = $this->getImages();
-        return sizeof($images) > 0 ? $images[0] : asset("storage/images/people/no_image.png");
+        return sizeof($images) > 0 ? $images[0] : asset("storage/images/no_image.jpg");
     }
 
     public function isFavourited()

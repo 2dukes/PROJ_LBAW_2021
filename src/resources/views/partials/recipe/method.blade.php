@@ -5,7 +5,7 @@
             <h3>
                 <a class="btn p-0 has-tooltip" data-bs-toggle="collapse" href="#instruction{{ $idx+1 }}" aria-expanded="false" aria-controls="instruction{{ $idx+1 }}" title="Click to hide or show this step" style="box-shadow: 0 0 0">
                     <i class="fas fa-check-circle d-inline-block align-middle"></i>
-                    <span class="d-inline-block align-middle">{{ $step->name == '' ? "Step".($idx+1) : $step->name }}</span>
+                    <span class="d-inline-block align-middle">{{ $step->name == '' ? "Step ".($idx+1) : $step->name }}</span>
                 </a>
             </h3>
             <div class="collapse show" id="instruction{{ $idx+1 }}">

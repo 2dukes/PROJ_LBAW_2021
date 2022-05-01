@@ -12,6 +12,12 @@ class RecipePolicy
 {
     use HandlesAuthorization;
 
+    /**
+     * All members can post a recipe
+     *
+     * @param Member|null $user
+     * @return false
+     */
     public function insert(?Member $user)
     {
         if (Auth::guard('admin')->check())
@@ -19,6 +25,17 @@ class RecipePolicy
         return Auth::check();
     }
 
+    /**
+     * A member can see all the recipes from public groups
+     * or groups they are members of,
+     * if its not from a group they can see all recipes from
+     * public users or users they follow.
+     * admins can see all recipes.
+     *
+     * @param Member|null $user
+     * @param Recipe $recipe
+     * @return bool
+     */
     public function select(?Member $user, Recipe $recipe)
     {
         if (Auth::guard('admin')->check())
@@ -35,6 +52,13 @@ class RecipePolicy
         return Auth::check() && $recipe->author->followers()->wherePivot('state', 'accepted')->get()->contains($user->id);
     }
 
+    /**
+     * Only the author of the recipe can edit it
+     *
+     * @param Member|null $user
+     * @param Recipe $recipe
+     * @return bool
+     */
     public function update(?Member $user, Recipe $recipe)
     {
         if (Auth::guard('admin')->check())
@@ -44,6 +68,13 @@ class RecipePolicy
         return $user->id == $recipe->author->id;
     }
 
+    /**
+     * Only the author of a recipe or an admin can delete it
+     *
+     * @param Member|null $user
+     * @param Recipe $recipe
+     * @return bool
+     */
     public function delete(?Member $user, Recipe $recipe)
     {
         if (Auth::guard('admin')->check())
@@ -55,6 +86,13 @@ class RecipePolicy
         return $user->id == $recipe->author->id;
     }
 
+    /**
+     * Any member who has not the recipe already in its favourites can add the recipe to it
+     *
+     * @param Member|null $user
+     * @param Recipe $recipe
+     * @return bool
+     */
     public function addToFavourites(?Member $user, Recipe $recipe)
     {
         if (Auth::guard('admin')->check())
@@ -64,6 +102,13 @@ class RecipePolicy
         return !$recipe->membersWhoFavourited->contains($user->id);
     }
 
+    /**
+     * Any member who has the recipe already in its favourites can remove the recipe from it
+     *
+     * @param Member|null $user
+     * @param Recipe $recipe
+     * @return false
+     */
     public function removeFromFavourites(?Member $user, Recipe $recipe)
     {
         if (Auth::guard('admin')->check())

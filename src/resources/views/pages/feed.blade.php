@@ -24,8 +24,9 @@
 
         <div class="row m-0 p-0">
             <div class="col-lg-9 px-0">
-                <a href="{{ url('/recipe') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Create Recipe</a>
-
+                @if(Auth::check())
+                    <a href="{{ url('/recipe') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Create Recipe</a>
+                @endif
                 <div class="m-0 p-0 feed-recipes-area pe-5">
                     @if($recipes->count() > 0)
                         @foreach($recipes as $recipe)

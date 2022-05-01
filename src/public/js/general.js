@@ -70,7 +70,7 @@ const dropdownMenus = document.querySelectorAll('.dropdown-menu');
 dropdownMenus.forEach(menu => menu.addEventListener('click', event => event.stopPropagation()));  // clicks inside the dropdown menu don't cause it to close
 
 
-const buttonLinks = document.querySelectorAll('button[role=a].has-link');
+const buttonLinks = document.querySelectorAll('button.has-link');
 
 for (const link of buttonLinks) {
     link.addEventListener('click', () => window.open(link.dataset.href, '_self'));

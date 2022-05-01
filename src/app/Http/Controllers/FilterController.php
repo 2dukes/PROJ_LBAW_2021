@@ -14,9 +14,9 @@ class FilterController
                 return $query;
             })
             ->when($request->query('category'), function($query, $category) {
-                return $query->where('id_category', '=', $category);
+                return $query->where('id_category', '=', $category);   // selects recipes of this category
             })
-            ->when($request->query('tags'), function($query, $tags) {
+            ->when($request->query('tags'), function($query, $tags) {  // selecting recipes that have the selected tags
                 $tagList = explode(',', $tags);
                 foreach($tagList as $tag) {
                     $query = $query->whereExists(function($query) use($tag) {
@@ -28,7 +28,7 @@ class FilterController
                 }
                 return $query;
             })
-            ->when($request->query('rating'), function($query, $rating) {
+            ->when($request->query('rating'), function($query, $rating) {  // selecting recipe in the rating range
                 $ratingParts = explode(',', $rating);
                 if (sizeof($ratingParts) != 2) return $query;
 
@@ -36,7 +36,7 @@ class FilterController
 
                 return $query->whereBetween('score', [$ratingParts[0], $ratingParts[1]]);
             })
-            ->when($request->query('ingredients'), function($query, $ingredients) {
+            ->when($request->query('ingredients'), function($query, $ingredients) {   // selecting recipe that has the selected ingredients
                 $ingredientList = explode(',', $ingredients);
                 foreach($ingredientList as $ingredient) {
                     $query = $query->whereExists(function($query) use($ingredient) {
@@ -48,13 +48,13 @@ class FilterController
                 }
                 return $query;
             })
-            ->when($request->query('date'), function($query, $date) {
+            ->when($request->query('date'), function($query, $date) {  // selecting recipe in the date range
                 $dateParts = explode(',', $date);
                 if (sizeof($dateParts) != 2) return $query;
 
                 return $query->whereBetween('creation_time', [$dateParts[0], $dateParts[1]]);
             })
-            ->when($request->query('duration'), function($query, $duration) {
+            ->when($request->query('duration'), function($query, $duration) {   // selecting recipe in the duration range
                 $durationParts = explode(',', $duration);
                 if (sizeof($durationParts) != 2) return $query;
 
@@ -66,7 +66,7 @@ class FilterController
 
                 return $query->whereBetween('total_duration', [$durationParts[0], $durationParts[1]]);
             })
-            ->when($request->query('difficulty'), function($query, $difficulty) {
+            ->when($request->query('difficulty'), function($query, $difficulty) {   // selecting recipes with the selected difficulty
                 return $query->where('difficulty', '=', $difficulty);
             });
     }

@@ -99,6 +99,9 @@ class RecipeController extends Controller
 
         $images = $recipe->getImages();
 
+        /**
+         * Dealing with the recipe visibility for the various users tiers
+         */
         if (Auth::guard('admin')->check()) {
             $suggested = Recipe::inRandomOrder()
                 ->whereRaw('id <> :recipe_id', ['recipe_id' => $recipe->id])

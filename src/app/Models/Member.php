@@ -141,12 +141,12 @@ class Member extends Authenticatable
 
     public function getNumberOfFollowersAttribute()
     {
-        return $this->followers()->count();
+        return $this->followers()->where("state", "accepted")->count();
     }
 
     public function getNumberOfFollowingAttribute()
     {
-        return $this->following()->count();
+        return $this->following()->where("state", "accepted")->count();
     }
 
     public function getNumberOfPostedRecipesAttribute() {
